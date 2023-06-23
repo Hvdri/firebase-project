@@ -2,28 +2,51 @@ import { auth, googleProvider } from "../config/firebase-config";
 import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { useState } from "react";
 
+import "./Auth.css";
+
 export const Auth = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [authenticated, setAuthenticated] = useState<boolean>(false);
 
   const signIn = async () => {
-    await createUserWithEmailAndPassword(auth, email, password);
-    setAuthenticated(true);
+    
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      setAuthenticated(true);
+    }
+    catch (err) {
+      console.error(err);
+    }
+
   };
 
   const signInWithGoogle = async () => {
-    await signInWithPopup(auth, googleProvider);
-    setAuthenticated(true);
+
+    try {
+      await signInWithPopup(auth, googleProvider);
+      setAuthenticated(true);
+    }
+    catch (err) {
+      console.error(err);
+    }
+
   };
 
   const logout = async () => {
-    await auth.signOut();
-    setAuthenticated(false);
+
+    try {
+      await auth.signOut();
+      setAuthenticated(false);
+    }
+    catch (err) {
+      console.error(err);
+    }
+
   };
 
   return (
-    <div>
+    <div className="div-autentificare">
       <input
         type="text"
         placeholder="Email..."

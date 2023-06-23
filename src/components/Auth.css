@@ -1,0 +1,37 @@
+.div-autentificare {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.div-autentificare input {
+    margin: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 300px;
+}
+
+.div-autentificare button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    text-decoration: none;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid white;
+    width: 300px;
+    background-color: #282c34;
+    color: white;
+    font-weight: bold;
+}
+
+.div-autentificare button:hover {
+    background-color: white;
+    color: black;
+    transition: all 0.2s ease-in-out;
+}

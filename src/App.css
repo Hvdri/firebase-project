@@ -1,0 +1,11 @@
+body {
+    background-color: rgb(19, 16, 16);
+    margin-left: 5rem;
+    margin-right: 5rem;
+}
+
+* {
+    box-sizing: border-box;
+
+    font-size: 15px;
+}
