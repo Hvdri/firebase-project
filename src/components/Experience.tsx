@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { db } from "../config/firebase-config";
+import { db, auth } from "../config/firebase-config";
 import {
   getDocs,
   collection,
@@ -88,6 +88,7 @@ export default function Experience() {
       await addDoc(technologiesCollectionRef, {
         language,
         years,
+        userId: auth?.currentUser?.uid,
       });
 
       const data = await getDocs(technologiesCollectionRef);

@@ -1,7 +1,11 @@
+import { useEffect, useState } from "react";
 import { auth, googleProvider } from "../config/firebase-config";
-import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
-import { useState } from "react";
-
+import {
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+  onAuthStateChanged,
+} from "firebase/auth";
 import "./Auth.css";
 
 export const Auth = () => {
@@ -9,40 +13,43 @@ export const Auth = () => {
   const [password, setPassword] = useState<string>("");
   const [authenticated, setAuthenticated] = useState<boolean>(false);
 
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setAuthenticated(true);
+      } else {
+        setAuthenticated(false);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
   const signIn = async () => {
-    
     try {
       await createUserWithEmailAndPassword(auth, email, password);
       setAuthenticated(true);
-    }
-    catch (err) {
+    } catch (err) {
       console.error(err);
     }
-
   };
 
   const signInWithGoogle = async () => {
-
     try {
       await signInWithPopup(auth, googleProvider);
       setAuthenticated(true);
-    }
-    catch (err) {
+    } catch (err) {
       console.error(err);
     }
-
   };
 
   const logout = async () => {
-
     try {
-      await auth.signOut();
+      await signOut(auth);
       setAuthenticated(false);
-    }
-    catch (err) {
+    } catch (err) {
       console.error(err);
     }
-
   };
 
   return (
@@ -57,9 +64,7 @@ export const Auth = () => {
         placeholder="Password..."
         onChange={(e) => setPassword(e.target.value)}
       />
-      {!authenticated && 
-        <button onClick={signIn}>Sign In</button>
-      }
+      {!authenticated && <button onClick={signIn}>Sign In</button>}
       {!authenticated && (
         <button onClick={signInWithGoogle}>Sign In With Google</button>
       )}
