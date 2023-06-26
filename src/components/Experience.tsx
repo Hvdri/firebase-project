@@ -85,7 +85,7 @@ export const Experience = () => {
 
   const onSubmit = async () => {
     try {
-      console.log(auth?.currentUser?.uid)
+      console.log(auth?.currentUser?.uid);
       await addDoc(technologiesCollectionRef, {
         language,
         years,
@@ -134,50 +134,55 @@ export const Experience = () => {
   };
 
   return (
-    <div className="div-experience">
-      <div className="div-add">
-        <input
-          type="text"
-          placeholder="Programming Language or Technology..."
-          onChange={(e) => setLanguage(e.target.value)}
-        />
-        <input
-          type="number"
-          placeholder="Years..."
-          onChange={(e) => setYears(parseInt(e.target.value))}
-        />
-        <button onClick={onSubmit}>Add</button>
-      </div>
-
-      <div className="div-map">
-        <div className="div-map-title">
-          <h2>Programming Language or Technology</h2>
-          <h2>Years</h2>
-          <h2></h2>
-          <h2></h2>
-
-        </div>
-        {dataList.map((data: any) => (
-          <div key={data.id} className="div-map-elements">
-            {editId === data.id ? (
-              <UpdateElement
-                data={data}
-                onSave={(updatedData: any) =>
-                  handleUpdate(data.id, updatedData)
-                }
-                onCancel={() => setEditId("")}
-              />
-            ) : (
-              <>
-                <h2>{data.language}</h2>
-                <h2>{data.years}</h2>
-                <button onClick={() => deleteData(data.id)}>Delete</button>
-                <button onClick={() => setEditId(data.id)}>Update</button>
-              </>
-            )}
+    <>
+      {auth?.currentUser?.uid && (
+        <div className="div-experience">
+          <div className="div-add">
+            <input
+              type="text"
+              placeholder="Programming Language or Technology..."
+              onChange={(e) => setLanguage(e.target.value)}
+            />
+            <input
+              type="number"
+              placeholder="Years..."
+              onChange={(e) => setYears(parseInt(e.target.value))}
+            />
+            <button onClick={onSubmit}>Add</button>
           </div>
-        ))}
-      </div>
-    </div>
+
+          <div className="div-map">
+            <div className="div-map-title">
+              <h2>Programming Language or Technology</h2>
+              <h2>Years</h2>
+              <h2></h2>
+              <h2></h2>
+            </div>
+            {/* if authenticated show map */}
+
+            {dataList.map((data: any) => (
+              <div key={data.id} className="div-map-elements">
+                {editId === data.id ? (
+                  <UpdateElement
+                    data={data}
+                    onSave={(updatedData: any) =>
+                      handleUpdate(data.id, updatedData)
+                    }
+                    onCancel={() => setEditId("")}
+                  />
+                ) : (
+                  <>
+                    <h2>{data.language}</h2>
+                    <h2>{data.years}</h2>
+                    <button onClick={() => deleteData(data.id)}>Delete</button>
+                    <button onClick={() => setEditId(data.id)}>Update</button>
+                  </>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </>
   );
-}
+};
