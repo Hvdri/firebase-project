@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { db, auth } from "../config/firebase-config";
+import { db, auth, storage } from "../config/firebase-config";
 import {
   getDocs,
   collection,
@@ -11,6 +11,7 @@ import {
 import UpdateElement from "./UpdateElement";
 
 import "./Experience.css";
+import { ref, uploadBytes } from "firebase/storage";
 
 export const Experience = () => {
   const [dataList, setDataList] = useState<any>([]);
@@ -19,6 +20,8 @@ export const Experience = () => {
   const [years, setYears] = useState<number>(0);
 
   const [editId, setEditId] = useState<string>("");
+
+  const [fileUpload, setFileUpload] = useState<any>(null);
 
   const technologiesCollectionRef = collection(db, "technologies");
 
@@ -133,6 +136,19 @@ export const Experience = () => {
     }
   };
 
+
+  const uploadFile = async () => {
+    if(!fileUpload) return;
+    const storageRef = ref(storage, `projectFiles/${fileUpload.name}`);
+    try {
+      await uploadBytes(storageRef, fileUpload);
+      console.log(fileUpload);
+    }
+    catch (err) {
+      console.error(err);
+    }
+  }
+
   return (
     <>
       {auth?.currentUser?.uid && (
@@ -181,6 +197,12 @@ export const Experience = () => {
               </div>
             ))}
           </div>
+
+          <div className="upload-file">
+          <input type="file" onChange={(e) => setFileUpload(e?.target?.files ? e.target.files[0] : null)}/>
+            <button onClick={uploadFile}>Upload File</button>
+          </div>
+
         </div>
       )}
     </>

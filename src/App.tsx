@@ -11,9 +11,19 @@ export const App = () => {
   };
 
   return (
+    <>
     <div>
       <Auth refreshExperience={refreshExperience} />
+    </div>
+    
+    
+    <div>
       <Experience key={refresh ? "refresh" : "no-refresh"} />
     </div>
+
+    
+
+
+    </>
   );
 };
