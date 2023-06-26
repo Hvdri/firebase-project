@@ -28,7 +28,7 @@ const UpdateElement: React.FC<UpdateElementProps> = ({
   };
 
   return (
-    <div className="">
+    <div className="div-update">
       <input
         type="text"
         value={updatedLanguage}

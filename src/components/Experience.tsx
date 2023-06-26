@@ -12,7 +12,7 @@ import UpdateElement from "./UpdateElement";
 
 import "./Experience.css";
 
-export default function Experience() {
+export const Experience = () => {
   const [dataList, setDataList] = useState<any>([]);
 
   const [language, setLanguage] = useState<string>("");
@@ -85,6 +85,7 @@ export default function Experience() {
 
   const onSubmit = async () => {
     try {
+      console.log(auth?.currentUser?.uid)
       await addDoc(technologiesCollectionRef, {
         language,
         years,
@@ -149,6 +150,13 @@ export default function Experience() {
       </div>
 
       <div className="div-map">
+        <div className="div-map-title">
+          <h2>Programming Language or Technology</h2>
+          <h2>Years</h2>
+          <h2></h2>
+          <h2></h2>
+
+        </div>
         {dataList.map((data: any) => (
           <div key={data.id} className="div-map-elements">
             {editId === data.id ? (

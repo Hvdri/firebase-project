@@ -8,14 +8,19 @@ import {
 } from "firebase/auth";
 import "./Auth.css";
 
-export const Auth = () => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [authenticated, setAuthenticated] = useState<boolean>(false);
+interface AuthProps {
+  refreshExperience: () => void;
+}
+
+export const Auth = ({ refreshExperience }: AuthProps) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [authenticated, setAuthenticated] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
+        console.log(user.uid);
         setAuthenticated(true);
       } else {
         setAuthenticated(false);
@@ -29,6 +34,7 @@ export const Auth = () => {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
       setAuthenticated(true);
+      refreshExperience(); // Refresh Experience component
     } catch (err) {
       console.error(err);
     }
@@ -38,6 +44,7 @@ export const Auth = () => {
     try {
       await signInWithPopup(auth, googleProvider);
       setAuthenticated(true);
+      refreshExperience(); // Refresh Experience component
     } catch (err) {
       console.error(err);
     }
@@ -47,6 +54,7 @@ export const Auth = () => {
     try {
       await signOut(auth);
       setAuthenticated(false);
+      refreshExperience(); // Refresh Experience component
     } catch (err) {
       console.error(err);
     }
